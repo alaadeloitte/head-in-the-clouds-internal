@@ -90,7 +90,12 @@ function getEvents(req, res) {
             if (!snapshot.empty) {
                 const ret = { events: []};
                 snapshot.docs.forEach(element => {
-                    ret.events.push(element.data());
+                //get data
+                const el = element.data();
+                //get internal firestore id and assign to object
+                el.id = element.id;
+                //add object to array
+                ret.events.push(el);
                 }, this);
                 console.log(ret);
                 res.json(ret);
