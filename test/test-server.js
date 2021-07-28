@@ -70,3 +70,21 @@ describe('GET /', function() {
 
       });
   });
+
+  describe('POST /delevent', function() {
+    it('deletes an event', function(done) {
+      request(app)
+      .delete('/delevent')
+      .send( { title: 'a test event', description: 'a really cool test' })
+      .set('Accept', 'application/json')
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+        chai.expect(JSON.parse(res.text).events.length).to.equal(3);
+        return done();
+      });
+
+      });
+  });

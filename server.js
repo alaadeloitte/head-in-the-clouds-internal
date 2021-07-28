@@ -69,6 +69,23 @@ app.post('/event', (req, res) => {
 
 });
 
+app.post('/delevent', (req, res) => {
+    // create a new object from the json data and add an id
+    const ev = { 
+        title: req.body.title, 
+        description: req.body.description,
+        id : mockEvents.events.length - 1
+     }
+// this will create the Events collection if it does not exist
+    firestore.collection("Events").doc(JSON.stringify(ev.id)).delete().then(() => {
+    console.log("Document successfully deleted");
+    getEvents(req, res);
+}).catch((error) => {
+    console.error("Error removing document: ", error);
+});
+
+});
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ message: err.message });
